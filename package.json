@@ -1,0 +1,8 @@
+{
+  "name": "bijo-snake",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
+}

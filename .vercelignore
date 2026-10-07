@@ -1,0 +1,7 @@
+*.py
+__pycache__
+requirements.txt
+game_env
+.env*
+supabase
+*.pdf

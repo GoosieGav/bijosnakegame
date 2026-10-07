@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bijo Snake lesson control</title>
+<link rel="icon" href="bijo_forward.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<section id="login">
+  <form class="card" id="login-form">
+    <img src="bijo_forward.png" alt="">
+    <h2>Lesson control</h2>
+    <input type="password" id="password" placeholder="Admin password" autocomplete="current-password" required>
+    <button type="submit">Unlock</button>
+    <div class="error" id="login-error"></div>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand"><img src="bijo_forward.png" alt=""><h1>Lesson control</h1></div>
+    <div class="chip"><span class="dot" id="conn-dot"></span><span id="conn-text">Connecting…</span></div>
+    <div class="chip" id="online-chip">0 online</div>
+    <div class="clock">
+      <b id="clock-time">0:00</b>
+      <span id="clock-pace">Lesson not started</span>
+      <button class="small" id="clock-btn">Start lesson</button>
+    </div>
+    <div class="spacer"></div>
+    <a class="link" href="/" target="_blank" rel="noopener">Student view</a>
+    <a class="link" href="/?display" target="_blank" rel="noopener">Projector view</a>
+    <button class="ghost small" id="logout">Log out</button>
+  </header>
+
+  <div class="cols">
+    <nav class="slides" id="slide-list" aria-label="Slides"></nav>
+
+    <section class="center">
+      <div class="preview-box">
+        <iframe id="live-frame" src="index.html?preview" title="What students see" tabindex="-1"></iframe>
+        <div class="preview-tag" id="live-tags"></div>
+      </div>
+
+      <div class="transport">
+        <button class="ghost big" id="prev">◀ Back</button>
+        <div class="where">
+          <div id="where-title"></div>
+          <div id="where-sub"></div>
+          <div class="steps" id="steps"></div>
+        </div>
+        <button class="big" id="next">Next ▶</button>
+      </div>
+
+      <div class="transport-sub">
+        <button class="ghost small" id="show-all">Show everything</button>
+        <button class="ghost small" id="hide-all">Hide everything</button>
+        <button class="ghost small" id="skip">Skip to next slide</button>
+        <span class="keys"><kbd>→</kbd> next &nbsp;<kbd>←</kbd> back &nbsp;<kbd>B</kbd> eyes up &nbsp;<kbd>P</kbd> pause all &nbsp;<kbd>L</kbd> lock games</span>
+      </div>
+
+      <div class="notes">
+        <div class="notes-head">
+          <h3>Notes</h3>
+          <span id="notes-meta"></span>
+          <button class="small" id="notes-timer" hidden></button>
+        </div>
+        <p id="notes-text"></p>
+      </div>
+    </section>
+
+    <aside class="controls">
+      <div class="card wed" id="wed-card">
+        <h2 id="wed-title">Wednesday screen is up</h2>
+        <p id="wed-text">Students only see “Wait until Wednesday”. Take it down when class starts.</p>
+        <button id="wed-btn">Open the lesson</button>
+      </div>
+
+      <div class="card">
+        <h2>Up next <small id="next-title"></small></h2>
+        <div class="next-box"><iframe id="next-frame" src="index.html?preview&amp;nocover" title="Next slide" tabindex="-1"></iframe></div>
+      </div>
+
+      <div class="card" id="results-card" hidden>
+        <h2>Poll results <small id="results-total"></small></h2>
+        <div id="results"></div>
+        <div class="row"><button class="small" id="reveal-btn">Show results to class</button></div>
+      </div>
+
+      <div class="card">
+        <h2>Screens</h2>
+        <label class="switch-row"><span>Eyes up front<small>Covers every laptop. Key: B</small></span><input type="checkbox" class="gold" id="eyes_up"></label>
+        <label class="switch-row"><span>Show leaderboard<small>On game slides</small></span><input type="checkbox" class="gold" id="show_leaderboard"></label>
+        <div style="margin-top:10px">
+          <input type="text" id="message" maxlength="200" placeholder="Banner message for everyone">
+          <div class="row fill">
+            <button class="small" id="send-message">Show banner</button>
+            <button class="ghost small" id="clear-message">Clear</button>
+          </div>
+          <div class="presets" id="message-presets">
+            <button class="ghost">Last 60 seconds!</button>
+            <button class="ghost">Finish your game</button>
+            <button class="ghost">Vote now</button>
+            <button class="ghost">Talk at your table</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Timer <small id="timer-left-wrap"><span id="timer-left">Off</span></small></h2>
+        <div class="row fill">
+          <button class="ghost small" data-timer="60">1 min</button>
+          <button class="ghost small" data-timer="120">2 min</button>
+          <button class="ghost small" data-timer="180">3 min</button>
+          <button class="ghost small" data-timer="300">5 min</button>
+        </div>
+        <div class="row fill">
+          <button class="ghost small" id="timer-add">+30 s</button>
+          <button class="ghost small" id="timer-stop">Stop</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Game</h2>
+        <label class="switch-row"><span>Pause everyone<small>They can’t unpause. Key: P</small></span><input type="checkbox" id="paused"></label>
+        <label class="switch-row"><span>Lock new games<small>Running games keep going. Key: L</small></span><input type="checkbox" id="start_blocked"></label>
+        <div class="row fill">
+          <button class="danger small" id="end-all">End all games</button>
+          <button class="ghost small" id="reset">Reset game settings</button>
+        </div>
+
+        <div class="slider">
+          <div class="lab"><span>Math questions</span><b id="question_chance-value"></b></div>
+          <input type="range" id="question_chance" min="0" max="1" step="0.05">
+          <div class="presets" id="q-presets">
+            <button class="ghost" data-q="0">Off</button>
+            <button class="ghost" data-q="0.3">30%</button>
+            <button class="ghost" data-q="0.6">60%</button>
+            <button class="ghost" data-q="1">Every pickup</button>
+          </div>
+        </div>
+        <div class="slider">
+          <div class="lab"><span>Impossible questions</span><b id="weird_chance-value"></b></div>
+          <input type="range" id="weird_chance" min="0" max="1" step="0.05">
+        </div>
+        <div class="slider">
+          <div class="lab"><span>Speed</span><b id="move_delay-value"></b></div>
+          <input type="range" id="move_delay" min="60" max="600" step="10">
+        </div>
+        <div class="slider">
+          <div class="lab"><span>Robux and cards try to spawn every</span><b id="spawn_delay-value"></b></div>
+          <input type="range" id="spawn_delay" min="250" max="20000" step="250">
+        </div>
+        <div class="slider">
+          <div class="lab"><span>Spawn chance</span><b id="spawn_chance-value"></b></div>
+          <input type="range" id="spawn_chance" min="0" max="1" step="0.05">
+        </div>
+        <p class="calc" id="spawn-calc"></p>
+      </div>
+
+      <div class="card">
+        <h2>Class <small id="class-sub"></small></h2>
+        <div class="stats">
+          <div class="stat"><b id="s-online">0</b><span>online</span></div>
+          <div class="stat"><b id="s-playing">0</b><span>playing</span></div>
+          <div class="stat"><b id="s-asked">0</b><span>questions</span></div>
+          <div class="stat"><b id="s-right">0</b><span>right</span></div>
+          <div class="stat"><b id="s-wrong">0</b><span>wrong</span></div>
+          <div class="stat weird"><b id="s-weird">0</b><span>impossible</span></div>
+        </div>
+        <p class="calc" id="exp-calc"></p>
+        <table class="roster">
+          <thead><tr><th>Name</th><th>Doing</th><th class="num">Best</th><th class="num">✓</th><th class="num">✗</th><th class="num">?</th></tr></thead>
+          <tbody id="roster"></tbody>
+        </table>
+        <div class="row">
+          <button class="ghost small" id="clear-data">Clear class data</button>
+          <button class="danger small" id="full-reset">Full reset</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="slides.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

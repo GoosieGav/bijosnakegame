@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bijo Snake</title>
+<link rel="icon" href="bijo_forward.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..800;1,400..700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400;600&family=STIX+Two+Text:ital,wght@0,500;0,600;1,500;1,600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="stage">
+    <div id="deck"></div>
+    <footer id="progress">
+      <div id="progress-snake"></div>
+      <span id="progress-section"></span>
+    </footer>
+    <div id="banner" role="status" hidden></div>
+    <div id="timer" hidden><span id="timer-text"></span><span id="timer-bar"></span></div>
+  </main>
+
+  <div id="game-home" hidden>
+  <div id="game-wrap">
+    <canvas id="game" width="1200" height="900"></canvas>
+    <button id="start-btn" type="button">START</button>
+    <div id="question" hidden>
+      <form id="question-form" class="q-card" autocomplete="off">
+        <p id="question-text"></p>
+        <div class="q-row">
+          <input id="question-input" type="text" inputmode="text" spellcheck="false" aria-label="Your answer" placeholder="Answer">
+          <button type="submit">Submit</button>
+        </div>
+        <p class="q-hint">Get it wrong and the game ends.</p>
+      </form>
+    </div>
+  </div>
+  </div>
+
+  <div id="gate" class="cover" hidden>
+    <form id="gate-form" class="gate-card" autocomplete="off">
+      <img src="bijo_forward.png" alt="">
+      <h1>What’s your first name?</h1>
+      <input id="gate-name" maxlength="20" spellcheck="false" aria-label="First name">
+      <button type="submit">Join</button>
+    </form>
+  </div>
+
+  <div id="cover-eyes" class="cover" hidden>
+    <img src="bijo_forward.png" alt="">
+    <h1>Eyes up front</h1>
+  </div>
+
+  <div id="cover-wait" class="cover" hidden>
+    <div class="wait-bob"><img src="bijo_forward.png" alt=""></div>
+    <p class="wait-top">WAIT UNTIL</p>
+    <p class="wait-day">WEDNESDAY</p>
+  </div>
+
+  <div id="loading" class="cover">Connecting…</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="questions.js"></script>
+  <script src="game.js"></script>
+  <script src="demos.js"></script>
+  <script src="slides.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
